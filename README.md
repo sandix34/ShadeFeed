@@ -133,6 +133,12 @@ The project architecture and technical decisions are documented in a living Mark
 
 **[Open the project map](project-map.md)**
 
+<p align="center">
+  <a href="docs/project-map.svg">
+    <img src="docs/project-map.svg" alt="Autonomous Wildlife Camera project map" width="100%">
+  </a>
+</p>
+
 The map evolves together with the project.
 
 ---
