@@ -1,4 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="mindmap" class="markmap mindmap"><style>.markmap {
+<svg xmlns="http://www.w3.org/2000/svg"
+     id="mindmap"
+     class="markmap"
+     viewBox="0 0 800 680"
+     width="800"
+     height="680"><style>.markmap {
   --markmap-max-width: 9999px;
   --markmap-a-color: #0097e6;
   --markmap-a-hover-color: #00a8ff;
