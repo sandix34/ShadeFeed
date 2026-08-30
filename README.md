@@ -129,11 +129,11 @@ The results will then be used to calculate the real energy requirements of the f
 
 ## 🗺 Project map
 
-The project architecture and technical decisions are documented in a living Markmap document:
+The project architecture and technical decisions are documented in a living Markmap file.
 
-🇫🇷 **[Project map — French](project-map-fr.md)**
+**[Open the project map](project-map.md)**
 
-The map will evolve together with the project.
+The map evolves together with the project.
 
 ---
 

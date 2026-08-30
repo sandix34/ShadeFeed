@@ -4,282 +4,282 @@ markmap:
   initialExpandLevel: 3
 ---
 
-# Projet caméra animalière autonome
+# Autonomous Wildlife Camera Project
 
-## 1. Objectif du projet
+## 1. Project objective
 
-### Finalité
-- Concevoir une station caméra animalière autonome
-- Permettre une observation longue durée sur le terrain
-- Pouvoir superviser le système à distance
-- Documenter chaque choix technique
+### Purpose
+- Design an autonomous wildlife monitoring station
+- Enable long-term field observation
+- Allow remote system supervision
+- Document each technical decision
 
-### Objectifs principaux
-- Autonomie longue durée
-- Vision jour / nuit
-- Connexion 4G
-- Stockage local
-- Alimentation solaire
-- Système fiable et évolutif
+### Main objectives
+- Long-term autonomy
+- Day and night operation
+- 4G connectivity
+- Local storage
+- Solar power
+- Reliable and scalable system
 
-### Principe de travail
-- Concevoir
-- Tester
-- Mesurer
-- Corriger
-- Documenter
-- Déployer seulement après validation
+### Working method
+- Design
+- Test
+- Measure
+- Improve
+- Document
+- Deploy only after validation
 
-## 2. Architecture générale
+## 2. General architecture
 
-### Caméra
+### Camera
 - Reolink RLC-811A
 - Ethernet
 - PoE
-- Vision nocturne
+- Night vision
 
-### Cerveau du système
+### Main computer
 - Raspberry Pi 5
 - Linux
-- Scripts Python
-- Supervision
-- Journalisation
+- Python scripts
+- System monitoring
+- Logging
 
-### Stockage
-- SSD USB 3
-- Stockage local des données
+### Storage
+- USB 3 SSD
+- Local data storage
 
-### Communication
-- Routeur 4G Teltonika RUT241
-- Accès distant
-- Réseau local du système
+### Connectivity
+- Teltonika RUT241 4G router
+- Remote access
+- Local system network
 
-### Énergie
-- Architecture 12 V
-- Batterie
-- Solaire
-- Régulation
-- Dimensionnement final après mesures réelles
+### Power
+- 12 V architecture
+- Battery
+- Solar panel
+- Power regulation
+- Final sizing based on real measurements
 
-## 3. Pourquoi un banc de test
+## 3. Why a test bench?
 
-### Problème
-- Les consommations réelles ne sont pas encore connues
-- Le comportement de nuit peut modifier fortement la consommation
-- La stabilité réseau doit être vérifiée
-- Les redémarrages et coupures doivent être testés
+### Problem
+- Real power consumption is not known yet
+- Night operation may significantly affect power consumption
+- Network stability must be validated
+- Restarts and power failures must be tested
 
-### Décision
-- Construire un banc de test avant de figer l'installation terrain
+### Decision
+- Build a test bench before finalizing the field system
 
-### Objectif du banc
-- Valider l'architecture complète
-- Mesurer les consommations
-- Tester la stabilité
-- Identifier les points faibles
-- Corriger avant le déploiement
+### Test bench objectives
+- Validate the complete architecture
+- Measure real power consumption
+- Test system stability
+- Identify weak points
+- Correct issues before deployment
 
-## 4. Banc de test V1
+## 4. V1 test bench
 
-### Durée cible
-- 72 heures
+### Target duration
+- 72 hours
 
-### Périmètre
-- Une seule caméra
+### Scope
+- One camera
 - Raspberry Pi
 - SSD
-- Réseau
+- Network
 - 4G
 - PoE
-- Mesures
-- Pas de solaire dans un premier temps
+- Measurements
+- No solar power during the first test phase
 
-### Critère de réussite
-- Système stable
-- Mesures exploitables
-- Redémarrage maîtrisé
-- Consommation connue
-- Stockage connu
-- Architecture comprise et documentée
+### Success criteria
+- Stable system
+- Usable measurements
+- Controlled restart behaviour
+- Known power consumption
+- Known storage requirements
+- Architecture understood and documented
 
 ## 5. Raspberry Pi
 
-### Choix
+### Selected platform
 - Raspberry Pi 5
 
-### Matériel associé
+### Associated hardware
 - Active Cooler
-- Boîtier
-- Alimentation adaptée
+- Case
+- Suitable power supply
 
-### Rôle
-- Piloter les tests
-- Communiquer avec la caméra
-- Exécuter les scripts Python
-- Enregistrer les résultats
-- Produire les logs
-- Préparer une future interface
+### Role
+- Control the tests
+- Communicate with the camera
+- Run Python scripts
+- Record results
+- Generate logs
+- Prepare for a future interface
 
-## 6. Alimentation / PoE
+## 6. Power / PoE
 
-### Éléments étudiés
+### Components under study
 - IPOE-162
-- Bloc d'alimentation
-- Connecteur jack femelle avec fils
-- Câbles nécessaires
+- Power supply
+- Female DC jack connector with wires
+- Required cabling
 - Ethernet
 
-### Sécurité
-- Prise murale standard côté secteur
-- Pas de manipulation dangereuse côté 230 V
-- Travail côté basse tension pour les essais
+### Safety
+- Standard wall plug on the mains side
+- No exposed or unsafe 230 V wiring
+- Low-voltage work only during testing
 
-### Mesure
-- Multimètre
-- Vérification tension
-- Vérification continuité
-- Diagnostic du câblage
+### Measurement
+- Multimeter
+- Voltage checks
+- Continuity checks
+- Wiring diagnostics
 
-## 7. Réseau
+## 7. Network
 
-### Développement à la maison
-- Raspberry connecté au Wi-Fi de la maison
-- Ordinateur sur le même réseau
-- Pas de routeur dédié nécessaire pour la V1 de développement
+### Home development setup
+- Raspberry Pi connected to the home Wi-Fi
+- Computer connected to the same network
+- No dedicated router required for the initial development phase
 
-### Accès au Raspberry
+### Raspberry Pi access
 - SSH
 - VS Code Remote
 
-### Terrain
-- RUT241 pour la 4G
-- Réseau local de la station
-- Accès distant à définir précisément
+### Field deployment
+- RUT241 for 4G connectivity
+- Local station network
+- Remote access method to be defined precisely
 
-## 8. Logiciel
+## 8. Software
 
-### Poste de travail
+### Workstation
 - Kali Linux
 - Windows
 - VS Code
 
-### Raspberry
+### Raspberry Pi
 - Linux
 - Python
 - Git
 
 ### Python
-- Apprentissage au fil du projet
-- Scripts simples au départ
-- Automatisation progressive
+- Learned progressively through the project
+- Simple scripts first
+- Gradual automation
 
 ### GitHub
-- Versionnement
+- Version control
 - Documentation
-- Historique des décisions
-- Partage futur du projet
+- Decision history
+- Future project sharing
 
-### Sécurité
-- Aucun mot de passe dans le dépôt
-- Variables d'environnement
-- Fichiers locaux exclus
+### Security
+- No passwords stored in the repository
+- Environment variables
+- Local files excluded from Git
 - `.gitignore`
 
-## 9. Mesures prévues
+## 9. Planned measurements
 
-### Énergie
-- Tension
-- Consommation
-- Consommation moyenne
-- Pics
-- Différence jour / nuit
+### Power
+- Voltage
+- Power consumption
+- Average consumption
+- Consumption peaks
+- Day / night differences
 
-### Réseau
-- Connectivité
-- Latence
-- Déconnexions
-- Reconnexion
-- Stabilité 4G
+### Network
+- Connectivity
+- Latency
+- Disconnections
+- Reconnection
+- 4G stability
 
-### Caméra
-- Fonctionnement jour
-- Fonctionnement nuit
-- IR
-- Qualité d'image
-- Stabilité du flux
+### Camera
+- Day operation
+- Night operation
+- IR behaviour
+- Image quality
+- Stream stability
 
-### Stockage
-- Volume produit
-- Débit
-- Espace utilisé sur 72 h
+### Storage
+- Data volume generated
+- Throughput
+- Storage used over 72 hours
 
-### Fiabilité
-- Température
-- Fonctionnement prolongé
-- Redémarrage Raspberry
-- Redémarrage caméra
-- Reprise après coupure
+### Reliability
+- Temperature
+- Long-duration operation
+- Raspberry Pi restart
+- Camera restart
+- Recovery after power loss
 
-## 10. Énergie définitive
+## 10. Final power system
 
-### Avant validation
-- Batterie et solaire non figés définitivement
+### Before validation
+- Battery and solar system are not finalized yet
 
-### Après le test 72 h
-- Calcul du besoin quotidien réel
-- Dimensionnement batterie
-- Dimensionnement solaire
-- Marges de sécurité
-- Choix du régulateur / MPPT
+### After the 72-hour test
+- Calculate real daily energy requirements
+- Size the battery
+- Size the solar array
+- Add safety margins
+- Select the charge controller / MPPT
 
-## 11. Documentation du projet
+## 11. Project documentation
 
 ### Documents
 - README
 - Markmap
-- Schémas
+- Schematics
 - BOM
-- Procédures de test
-- Résultats
-- Journal des décisions
+- Test procedures
+- Results
+- Decision log
 
-### Règle
-- Chaque choix important doit être daté
-- Chaque changement doit expliquer pourquoi
-- Les pistes abandonnées doivent rester visibles
+### Documentation rules
+- Every important choice should be dated
+- Every architecture change should explain why it was made
+- Rejected or postponed options should remain documented
 
 ## 12. V2
 
-### Évolutions possibles
-- Deux caméras
-- Automatisation avancée
-- Comparaison des résultats
-- Interface de supervision
-- Analyse automatique
-- IA embarquée
+### Possible future developments
+- Two-camera architecture
+- Advanced automation
+- Result comparison
+- Monitoring interface
+- Automated analysis
+- Embedded AI
 
-## 13. État actuel
+## 13. Current status
 
-### Déjà défini
-- Projet de station caméra animalière autonome
+### Defined
+- Autonomous wildlife monitoring station concept
 - Raspberry Pi 5
 - Reolink RLC-811A
-- SSD USB 3
+- USB 3 SSD
 - Teltonika RUT241
-- Architecture 12 V
-- Banc de test 72 h
-- Une caméra pour la V1
+- 12 V architecture
+- 72-hour test bench
+- One camera for V1
 - Kali Linux + VS Code
 - Python
 - GitHub
-- Documentation Markmap
+- Markmap documentation
 
-### À finaliser
-- Schéma électrique du banc
-- Alimentation exacte
-- Choix final du multimètre
-- Achat Raspberry Pi 5
-- Boîtier et refroidissement
-- Montage PoE
-- Procédure de test 72 h
-- Structure du dépôt GitHub
+### To be finalized
+- Test bench electrical diagram
+- Exact power supply
+- Final multimeter choice
+- Raspberry Pi 5 purchase
+- Case and cooling
+- PoE assembly
+- 72-hour test procedure
+- GitHub repository structure
