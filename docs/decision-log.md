@@ -52,3 +52,29 @@ It provides suitable storage performance while keeping the Raspberry Pi PCIe int
 
 ### Future consideration
 PCIe may later be used for an AI accelerator or another hardware extension.
+
+## 2026-09 — Raspberry Pi OS Lite for the main computer
+
+**Status:** Accepted
+
+### Decision
+
+Use Raspberry Pi OS Lite 64-bit on the Raspberry Pi 5.
+
+### Why
+
+The Raspberry Pi will operate as a headless autonomous system and will normally be administered remotely using SSH.
+
+A graphical desktop environment is not required and would consume additional system resources.
+
+### Administration
+
+The Raspberry Pi hostname is:
+
+`noctua`
+
+Remote administration will initially use SSH over the local network.
+
+### Consequence
+
+The Raspberry Pi can operate without a dedicated monitor, keyboard or mouse.

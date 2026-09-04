@@ -102,10 +102,14 @@ The results will then be used to calculate the real energy requirements of the f
 
 ## 🚧 Current project stage
 
-### Defined
+#### Defined
 
 - [x] Overall project concept
 - [x] Raspberry Pi 5 architecture
+- [x] Raspberry Pi 5 purchased
+- [x] Raspberry Pi OS Lite 64-bit selected
+- [x] microSD prepared
+- [x] SSH configured
 - [x] Reolink RLC-811A camera
 - [x] USB 3 SSD storage
 - [x] Teltonika RUT241 for 4G
@@ -117,7 +121,8 @@ The results will then be used to calculate the real energy requirements of the f
 
 ### In progress
 
-- [ ] Raspberry Pi 5 purchase
+- [ ] First Raspberry Pi boot
+- [ ] First SSH connection
 - [ ] Test-bench power supply
 - [ ] PoE assembly
 - [ ] Electrical measurements
