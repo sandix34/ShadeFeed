@@ -118,11 +118,15 @@ The results will then be used to calculate the real energy requirements of the f
 - [x] One-camera V1
 - [x] Linux / VS Code development environment
 - [x] GitHub documentation
+- [x] Raspberry Pi system updated
+- [x] Raspberry Pi health checks completed
+- [x] GitHub SSH access configured on Noctua
+- [x] Python virtual environment created
 
 ### In progress
 
-- [ ] First Raspberry Pi boot
-- [ ] First SSH connection
+- [x] First Raspberry Pi boot
+- [x] First SSH connection
 - [ ] Test-bench power supply
 - [ ] PoE assembly
 - [ ] Electrical measurements

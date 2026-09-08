@@ -60,31 +60,49 @@ ssh sandrine@noctua.local
 - [x] hostname configured as `noctua`
 - [x] Wi-Fi configured
 - [x] SSH enabled
-- [ ] first Raspberry Pi boot
-- [ ] first SSH connection
-- [ ] system update
-- [ ] system temperature check
-- [ ] storage check
+- [x] first Raspberry Pi boot
+- [x] first SSH connection
+- [x] system update
+- [x] system temperature check
+- [x] power / throttling check
+- [x] storage check
+- [x] Git installed and configured
+- [x] Python virtual environment created
+- [x] GitHub SSH authentication configured
 - [ ] first Python test
+
+## First boot validation — 2026-09-08
+
+- Hostname: `noctua`
+- Operating system: Debian GNU/Linux 13 (trixie)
+- Debian version: 13.5
+- Architecture: 64-bit ARM
+- Initial IPv4 address: `192.168.1.37`
+- Local network hostname: `noctua.home`
+- SSH access: operational
+- Idle CPU temperature: 48.8 °C
+- Throttling status: `0x0`
+- Root filesystem size: 235 GB
+- Available storage: 223 GB
+- Git version: 2.47.3
+- Python virtual environment: `.venv`
+- GitHub access: SSH authentication operational
+
+### Network note
+
+During the first boot, `noctua.local` did not resolve from Kali Linux.
+
+The Raspberry Pi was discovered on the local network at `192.168.1.37`.
+
+The home router resolves the Raspberry Pi as `noctua.home`.
 
 ## Next steps
 
-Once the Raspberry Pi 5 and its power supply are available:
-
-1. Insert the prepared microSD card.
-2. Power on the Raspberry Pi.
-3. Wait for the first boot to complete.
-4. Check network availability from Kali Linux.
-5. Connect to Noctua using SSH:
-
-```bash
-ssh sandrine@noctua.local
-```
-
-6. Verify the operating system and hardware.
-7. Update the system.
-8. Check CPU temperature and storage.
-9. Run the first Python test.
+1. Complete the initial software project structure.
+2. Run the first Python test.
+3. Validate the development workflow between Kali Linux, GitHub and Noctua.
+4. Prepare camera connectivity tests.
+5. Continue test-bench integration as hardware becomes available.
 
 ## Notes
 
