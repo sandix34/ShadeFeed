@@ -128,7 +128,7 @@ markmap:
 - README.md
 - project-map.md
 - docs/umbra-installation-rtsp-performance.md
-- docs/project-map.svg (generated visualization; may require regeneration)
+- docs/project-map.svg (simplified visual overview)
 
 ### Rules
 - English documentation
