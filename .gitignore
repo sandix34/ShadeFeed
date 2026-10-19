@@ -1,7 +1,30 @@
+# Python and local environments
 .venv/
+venv/
 __pycache__/
-*.pyc
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local configuration and secrets
 .env
+.env.*
+!.env.example
+*.key
+*.pem
+id_rsa
+id_ed25519
+
+# Runtime logs and generated field data
 *.log
 data/
 logs/
+recordings/
+captures/
+*.mp4
+*.mkv
+
+# Local editor and OS files
+.DS_Store
+Thumbs.db
