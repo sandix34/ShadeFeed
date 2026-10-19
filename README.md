@@ -57,6 +57,9 @@ The preliminary design direction is to use the lower-resolution H.264 stream for
 
 - **[Umbra: beginner-friendly setup, RTSP and Raspberry Pi performance tests](docs/umbra-installation-rtsp-performance.md)** — observed commands, expected outputs, troubleshooting, measurements and safety notes
 - **[Project map (Markmap source)](project-map.md)** — architecture, validation stages and open questions
+- **[Raspberry Pi setup](docs/raspberry-pi-setup.md)** — initial configuration and observed system checks
+- **[V1 test-bench plan](docs/test-bench-v1.md)** — electrical design caveats, measurement points and endurance-test plan
+- **[Technical decision log](docs/decision-log.md)** — dated choices, evidence and open decisions
 
 ![Project architecture map](docs/project-map.svg)
 
