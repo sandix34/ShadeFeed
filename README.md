@@ -60,7 +60,7 @@ The preliminary design direction is to use the lower-resolution H.264 stream for
 
 ![Project architecture map](docs/project-map.svg)
 
-**Important:** The SVG is a generated representation of the project map and may lag behind the Markdown source until regenerated.
+**Note:** The SVG is a simplified visual overview; the Markdown project map contains the more detailed plan.
 
 ## Next validation stages
 
