@@ -1,203 +1,82 @@
-# 🦅 Autonomous Wildlife Camera
+# 🦉 Autonomous Wildlife Camera — Noctua
 
-An autonomous wildlife monitoring station designed for long-term field observation.
+An experimental, autonomous wildlife observation station built to support long-term, low-disturbance field monitoring.
 
-The project combines nature observation with Linux, Raspberry Pi, networking, PoE, local storage, 4G connectivity and solar power.
+**Project status (October 2026):** Raspberry Pi preparation completed; Umbra camera accessible over the local network; RTSP video reception and initial performance measurements validated. **The station is not yet autonomous or field-deployed.**
 
-> **Current status:** design and test-bench preparation.
+> **Observe → Test → Measure → Document → Improve**
 
----
+## Project goals
 
-## 🌿 Why this project?
+- Continuous wildlife observation, including day and night
+- A live video feed accessible remotely
+- Long unattended operation, ultimately measured in months
+- Local recording, monitoring and fault recovery
+- Cellular connectivity and off-grid power
+- Reproducible tests and documentation without exposing sensitive wildlife locations
 
-Wildlife monitoring systems need more than a camera.
+## Components and status
 
-Long-term field deployment also requires reliable power, storage, networking, remote access and the ability to recover from failures.
+| Component | Status | Notes |
+| --- | --- | --- |
+| Raspberry Pi 5 (Noctua) | **Installed and tested** | Linux, SSH, Git access, Python virtual environment and basic health checks |
+| Reolink RLC-811A (Umbra) | **Received and tested** | RTSP secondary H.264 and main 4K H.265 streams accessed |
+| PLANET IPOE-162 PoE injector | **Received; operating setup used for camera tests** | Exact wiring, labeling and electrical compatibility still require a documented inspection |
+| LEICKE NT03242, 24 V / 2 A | **Measured** | 24.46 V DC at the supply output; not a measurement of PoE output or station power consumption |
+| Kali Linux + VS Code + GitHub | **In use** | Development, remote administration and documentation |
+| USB 3 SSD | **Planned; integration not validated** | Local video and log storage |
+| Teltonika RUT241 | **Planned; not validated** | Cellular networking and remote access |
+| Battery, solar panel and charge controller | **Not finalized** | Design depends on measured energy requirements |
 
-The goal of this project is therefore not only to build a working system, but to understand and validate the complete technical chain before deploying it in the field.
+The architecture and selected parts may change after tests. A selected component is not necessarily purchased, installed or validated.
 
-**Observe → Test → Measure → Document → Improve**
+## Completed tests
 
----
+- Raspberry Pi startup, system update and SSH access
+- Raspberry Pi GitHub SSH access and Python virtual environment
+- Local RTSP service available on TCP port 554
+- Secondary camera stream identified as **H.264, 640 × 360**, nominal metadata **25 fps**
+- Main camera stream identified as **H.265/HEVC, 3840 × 2160**, nominal metadata **25.5 fps**
+- Short video processing tests on the Raspberry Pi 5
+- Initial CPU and memory comparison for 4K video processing
 
-## 🎯 Objectives
+### Initial 4K results (30-second tests)
 
-The station is being designed to provide:
+| Measurement | Full video decode | Compressed stream copy |
+| --- | ---: | ---: |
+| Average FFmpeg CPU | 163% | 1% |
+| Peak resident memory | 372,368 KB (~364 MiB) | 60,144 KB (~59 MiB) |
+| Wall-clock time | 30.66 s | 31.60 s |
+| Exit status | 0 | 0 |
 
-- Long-term autonomous wildlife observation
-- Day and night operation
-- Remote 4G connectivity
-- Local data storage
-- Solar-powered operation
-- System monitoring and logging
-- Reliable recovery after power or network failures
-- An architecture that can evolve over time
+**Interpretation:** handling the compressed 4K stream without decoding is far less CPU-intensive than decoding every frame. These are short tests, **not proof of long-term stability**. The stream-copy test emitted non-monotonic DTS warnings, which must be investigated before relying on recordings.
 
----
+The preliminary design direction is to use the lower-resolution H.264 stream for analysis and reserve the 4K H.265 stream for high-quality recording or selected captures. This architecture remains to be implemented and validated.
 
-## 🧩 Planned architecture
+## Documentation
 
-### Camera
+- **[Umbra: beginner-friendly setup, RTSP and Raspberry Pi performance tests](docs/umbra-installation-rtsp-performance.md)** — observed commands, expected outputs, troubleshooting, measurements and safety notes
+- **[Project map (Markmap source)](project-map.md)** — architecture, validation stages and open questions
 
-- Reolink RLC-811A
-- Ethernet
-- PoE
-- Night vision
+![Project architecture map](docs/project-map.svg)
 
-### Main computer
+**Important:** The SVG is a generated representation of the project map and may lag behind the Markdown source until regenerated.
 
-- Raspberry Pi 5
-- Linux
-- Python
-- System monitoring
-- Test automation and logging
+## Next validation stages
 
-### Storage
+- [ ] Inspect and document the precise PoE connections, supply specifications and wiring
+- [ ] Verify camera firmware and software versions and document Reolink settings
+- [ ] Rotate any camera credentials exposed in earlier test screenshots
+- [ ] Validate real recording files, timestamps and disk usage
+- [ ] Test stream stability, temperatures and reconnection over longer periods
+- [ ] Measure complete-system power consumption, including night/IR operation
+- [ ] Implement secure remote live viewing and verify recovery after outages
+- [ ] Integrate storage and cellular networking
+- [ ] Run a **72-hour test bench** before sizing off-grid power
+- [ ] Select the installation site without publishing sensitive coordinates
 
-- USB 3 SSD
-- Local storage for captured data and logs
+## Reproducibility and security
 
-### Connectivity
+Each test should record its purpose, prerequisites, exact commands, observations, limitations and next steps. Do not commit credentials, expanded RTSP URLs containing passwords, private keys, site coordinates or sensitive wildlife observations.
 
-- Teltonika RUT241
-- 4G connection
-- Remote access
-- Local network management
-
-### Power
-
-- 12 V architecture
-- Battery
-- Solar panel
-- Charge controller / MPPT
-
-The final battery and solar sizing will be based on **real measurements**, not only theoretical estimates.
-
----
-
-## 🔬 Validation strategy
-
-Before building the final autonomous station, a test bench will be used to validate the system.
-
-### First test phase
-
-A **72-hour test** is planned without solar power.
-
-The test bench will be used to measure:
-
-- Power consumption
-- Day / night consumption differences
-- Network stability
-- 4G connectivity
-- Camera and IR behaviour
-- Storage usage
-- System temperatures
-- Long-duration stability
-- Recovery after power loss
-- Raspberry Pi and camera restart behaviour
-
-The results will then be used to calculate the real energy requirements of the field system.
-
----
-
-## 🚧 Current project stage
-
-#### Defined
-
-- [x] Overall project concept
-- [x] Raspberry Pi 5 architecture
-- [x] Raspberry Pi 5 purchased
-- [x] Raspberry Pi OS Lite 64-bit selected
-- [x] microSD prepared
-- [x] SSH configured
-- [x] Reolink RLC-811A camera
-- [x] USB 3 SSD storage
-- [x] Teltonika RUT241 for 4G
-- [x] 12 V power architecture
-- [x] 72-hour validation strategy
-- [x] One-camera V1
-- [x] Linux / VS Code development environment
-- [x] GitHub documentation
-- [x] Raspberry Pi system updated
-- [x] Raspberry Pi health checks completed
-- [x] GitHub SSH access configured on Noctua
-- [x] Python virtual environment created
-
-### In progress
-
-- [x] First Raspberry Pi boot
-- [x] First SSH connection
-- [ ] Test-bench power supply
-- [ ] PoE assembly
-- [ ] Electrical measurements
-- [ ] Multimeter selection
-- [ ] Test procedure
-- [ ] First Python scripts
-
----
-
-## 🗺 Project map
-
-The project architecture and technical decisions are documented in a living Markmap file.
-
-**[Open the project map](project-map.md)**
-
-<p align="center">
-  <a href="docs/project-map.svg">
-    <img src="docs/project-map.svg" alt="Autonomous Wildlife Camera project map" width="100%">
-  </a>
-</p>
-
-The map evolves together with the project.
-
----
-
-## 🛠 Development environment
-
-Current development environment:
-
-- Kali Linux
-- Windows
-- Visual Studio Code
-- Git
-- GitHub
-- Python
-- Raspberry Pi
-
-Python is being learned and applied progressively through the real needs of the project.
-
----
-
-## 🔮 Future evolution
-
-Once V1 has been validated, possible developments include:
-
-- Two-camera architecture
-- Automated test sequences
-- Advanced monitoring interface
-- Automated result comparison
-- Data analysis
-- Embedded AI
-
----
-
-## 📚 Documentation philosophy
-
-Important technical decisions will be documented with:
-
-- What was chosen
-- Why it was chosen
-- What alternatives were considered
-- What was measured
-- What worked
-- What failed
-- What changed
-
-The objective is to keep the project reproducible and understandable as it evolves.
-
----
-
-## 🌱 Project philosophy
-
-Technology is the tool.  
-The field is the destination.
+The goal is a reliable and understandable station, not just a demonstration that video can be displayed.
