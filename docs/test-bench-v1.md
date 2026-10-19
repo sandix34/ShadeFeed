@@ -1,109 +1,82 @@
-# V1 Test Bench
+# V1 Test Bench — Design and Validation Plan
+
+**Last reviewed:** 2026-10-19  
+**Status:** Conceptual design under revision. **Not a validated wiring diagram.**
 
 ## Purpose
 
-The V1 test bench is designed to validate the complete system architecture before any field deployment.
+The test bench will validate a single-camera Noctua station before field deployment, including video reception, power consumption, recording, connectivity and fault recovery.
 
-The objectives are to:
+### What has already been demonstrated
 
-- validate the 12 V power architecture
-- verify PoE camera operation
-- validate Raspberry Pi 5 + SSD operation
-- verify network communication
-- measure real power consumption
-- monitor system stability
-- prepare the 72-hour reliability test
+- Raspberry Pi 5 boots and is accessible over SSH.
+- Umbra (Reolink RLC-811A) delivers RTSP video to the local network.
+- Secondary H.264 and main 4K H.265 streams were identified.
+- Short FFmpeg CPU and memory tests were completed.
+- The LEICKE NT03242 supply output was measured at **24.46 V DC** (nominal 24 V / 2 A).
 
----
+These are **not** full-system energy or long-duration reliability tests.
 
-## Current architecture
+## Historical architecture diagram
 
-> **Status: draft — 2026-08**
->
-> This diagram represents the current V1 test-bench architecture.
-> Power supply sizing, fuse ratings and some electrical details still need to be validated experimentally.
+![Early V1 concept — not an approved electrical schematic](test-bench-v1-architecture.png)
 
-![V1 test bench architecture](test-bench-v1-architecture.png)
+**Warning:** The image above is an **early conceptual diagram**. It may show a common 12 V distribution bus and connections that have not been electrically validated. **Do not use it as a build or wiring instruction.**
 
----
+The original proposal included:
+- A 12 V DC distribution bus
+- A Teltonika RUT241 router
+- A PLANET IPOE-162 PoE injector and Reolink RLC-811A camera
+- A 12 V-to-5 V converter for the Raspberry Pi 5
+- A USB 3 SSD
 
-## Power architecture
+**Design discrepancy to resolve:** the earlier diagram depicts a 12 V branch to the PoE injector, whereas the equipment used in recent camera tests includes a **24 V** LEICKE supply. The injector's exact permitted input range, wiring, polarity, output mode and camera compatibility must be checked against the actual hardware documentation before specifying a final power architecture. A measured supply voltage does not prove PoE compatibility.
 
-The test bench is based on a common **12 V DC distribution bus**.
+The final 12 V, 24 V or mixed-voltage topology **has not yet been selected or validated**.
 
-The 230 V AC side remains fully enclosed inside a commercial AC/DC power supply.
+## Planned electrical measurements
 
-All user-accessible wiring and measurements are performed on the low-voltage DC side.
+| Point | Location | Intended measurement |
+| --- | --- | --- |
+| M1 | Complete power system, once designed | Total voltage, current, average and peak power |
+| M2 | Camera and PoE injector supply branch | Day/night and IR-related consumption |
+| M3 | Raspberry Pi and storage supply branch | Idle/load power and storage impact |
+| M4 | Cellular router supply branch, once integrated | Network and reconnection consumption |
 
-### Main branches
+Measurement points are provisional until the circuit and instruments are verified. Never connect a multimeter in current mode directly across a voltage source.
 
-**12 V → Teltonika RUT241**
+## Planned 72-hour test
 
-Direct 12 V supply for the network router.
+1. Confirm exact hardware specifications, cable connections, protective devices and safe measurement procedures.
+2. Record software and firmware versions.
+3. Validate actual saved video files, timestamps and playback.
+4. Record baseline power consumption and night/IR behavior.
+5. Test continuous operation, temperatures, network stability and storage growth.
+6. Simulate and document safe restart and recovery scenarios.
+7. Summarize failures, missing data, energy consumption and storage requirements.
 
-**12 V → PLANET IPOE-162 → Reolink RLC-811A**
+### Pass/fail criteria — to define before the test
 
-The PoE injector powers the camera and carries Ethernet data.
+- Recording availability and file integrity
+- Acceptable thermal and power behavior
+- Recoverability after interruptions
+- Storage capacity and retention requirements
+- Sufficient evidence for battery and solar sizing
 
-**12 V → 5 V USB-C converter → Raspberry Pi 5**
+Do not declare the test successful without dated logs and measurements.
 
-The Raspberry Pi 5 is powered through a dedicated DC/DC converter.
+## Safety and outstanding decisions
 
-The local SSD is connected to the Raspberry Pi through USB 3.
+- [ ] Verify IPOE-162 electrical specifications and photograph exact connections
+- [ ] Confirm the final distribution voltage(s) and suitable converters
+- [ ] Select and validate fuses, wire gauges and connectors
+- [ ] Confirm safe power delivery for the Raspberry Pi 5
+- [ ] Select power measurement instruments and procedures
+- [ ] Produce a new, verified electrical schematic
+- [ ] Integrate SSD and cellular router
+- [ ] Finalize the 72-hour test protocol
+- [ ] Run the test and publish its measured results
 
----
+All mains wiring must remain enclosed in suitable commercial equipment. Experimental work is restricted to safely designed low-voltage circuits.
 
-## Planned measurement points
-
-### M1 — Complete system
-
-Measurement at the main 12 V output before distribution.
-
-Purpose:
-
-- total voltage
-- total current
-- total system power
-
-### M2 — Camera / PoE branch
-
-Measurement before the IPOE-162.
-
-Purpose:
-
-- camera + PoE injector consumption
-- day/night comparison
-- IR impact
-
-### M3 — Raspberry Pi / SSD branch
-
-Measurement before the 12 V → 5 V converter.
-
-Purpose:
-
-- Raspberry Pi consumption
-- SSD impact
-- workload variations
-
----
-
-## Safety principle
-
-No exposed 230 V wiring will be used in the test bench.
-
-The mains side will use a fully enclosed commercial power supply with a standard wall plug.
-
-All experimental wiring, measurements and modifications will be performed on the **12 V DC side only**.
-
----
-
-## Still to validate
-
-- [ ] Exact 12 V power supply
-- [ ] Exact fuse ratings
-- [ ] 12 V → 5 V / 5 A Raspberry Pi converter
-- [ ] Distribution connectors
-- [ ] Wire sections
-- [ ] Measurement equipment
-- [ ] Final electrical diagram
-- [ ] 72-hour test protocol
+**Related:** [Umbra RTSP and performance guide](umbra-installation-rtsp-performance.md) · [Decision log](decision-log.md).
