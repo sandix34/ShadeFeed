@@ -4,282 +4,143 @@ markmap:
   initialExpandLevel: 3
 ---
 
-# Autonomous Wildlife Camera Project
+# Noctua — Autonomous Wildlife Camera
 
-## 1. Project objective
+## 1. Mission
 
-### Purpose
-- Design an autonomous wildlife monitoring station
-- Enable long-term field observation
-- Allow remote system supervision
-- Document each technical decision
-
-### Main objectives
-- Long-term autonomy
+### Field observation
+- Long-term, low-disturbance wildlife monitoring
 - Day and night operation
-- 4G connectivity
-- Local storage
-- Solar power
-- Reliable and scalable system
+- Live video accessible remotely
+- Protect sensitive observation locations
 
-### Working method
-- Design
+### Method
+- Observe
 - Test
 - Measure
-- Improve
 - Document
+- Improve
 - Deploy only after validation
 
-## 2. General architecture
+## 2. Current status — October 2026
 
-### Camera
+### Completed
+- Raspberry Pi 5 purchased and initialized
+- Linux updates and health checks
+- SSH access and GitHub SSH configuration
+- Python virtual environment
+- Reolink RLC-811A camera received and named Umbra
+- PLANET IPOE-162 received
+- RTSP connectivity and video stream identification
+- Initial 4K CPU and memory comparison
+- Beginner-friendly RTSP documentation
+
+### Not yet validated
+- Exact PoE wiring documentation and full electrical checks
+- Stable recording and timestamp handling
+- Long-duration network and thermal performance
+- Complete power consumption
+- Cellular connectivity and secure remote viewing
+- Solar and battery sizing
+- 72-hour endurance test
+- Unattended field operation
+
+## 3. Test-bench architecture
+
+### Camera — Umbra
 - Reolink RLC-811A
-- Ethernet
-- PoE
-- Night vision
+- Ethernet and PoE
+- Secondary RTSP: H.264, 640 × 360
+- Main RTSP: H.265, 3840 × 2160
+- Night and infrared behavior to be measured
 
-### Main computer
+### Main computer — Noctua
 - Raspberry Pi 5
-- Linux
-- Python scripts
-- System monitoring
-- Logging
+- Linux, Python and FFmpeg
+- SSH administration
+- Monitoring and future automation
 
-### Storage
+### Power and PoE
+- PLANET IPOE-162 injector
+- LEICKE NT03242 24 V / 2 A supply
+- Measured supply output: 24.46 V DC
+- Confirm wiring and electrical compatibility before reproducing
+- Complete energy measurements pending
+
+### Storage — planned
 - USB 3 SSD
-- Local data storage
+- Recordings and logs
+- Retention and capacity tests pending
 
-### Connectivity
-- Teltonika RUT241 4G router
-- Remote access
-- Local system network
+### Connectivity — planned
+- Teltonika RUT241
+- 4G connection
+- Secure remote access
+- Network recovery tests
 
-### Power
-- 12 V architecture
-- Battery
-- Solar panel
-- Power regulation
-- Final sizing based on real measurements
+## 4. Initial video results
 
-## 3. Why a test bench?
+### Main 4K stream, 30 seconds
+- Decoding: FFmpeg CPU 163%, peak RSS approximately 364 MiB
+- Compressed stream copy: FFmpeg CPU 1%, peak RSS approximately 59 MiB
+- Both tests exited with status 0
+- Non-monotonic DTS warnings observed during copy
+- Short tests do not prove endurance
 
-### Problem
-- Real power consumption is not known yet
-- Night operation may significantly affect power consumption
-- Network stability must be validated
-- Restarts and power failures must be tested
+### Working architecture hypothesis
+- Lower-resolution H.264 stream for analysis
+- Main 4K H.265 stream for selected recordings
+- No unnecessary full-frame 4K transcoding
+- Implementation and validation still pending
 
-### Decision
-- Build a test bench before finalizing the field system
+## 5. Planned 72-hour test bench
 
-### Test bench objectives
-- Validate the complete architecture
-- Measure real power consumption
-- Test system stability
-- Identify weak points
-- Correct issues before deployment
-
-## 4. V1 test bench
-
-### Target duration
-- 72 hours
-
-### Scope
-- One camera
-- Raspberry Pi
-- SSD
-- Network
-- 4G
-- PoE
-- Measurements
-- No solar power during the first test phase
+### Monitoring
+- Power draw and day/night differences
+- Video stream continuity
+- Camera and Raspberry Pi temperatures
+- Network interruptions and reconnection
+- Storage growth and integrity
+- Reboot and power-loss recovery
 
 ### Success criteria
-- Stable system
-- Usable measurements
-- Controlled restart behaviour
-- Known power consumption
-- Known storage requirements
-- Architecture understood and documented
+- Documented measurements
+- Reproducible test procedure
+- Known energy and storage requirements
+- Explicit record of failures and limitations
 
-## 5. Raspberry Pi
+## 6. Field power — not finalized
 
-### Selected platform
-- Raspberry Pi 5
+### Proposed components
+- Battery
+- Solar panel
+- Charge controller / MPPT
+- Suitable power regulation
 
-### Associated hardware
-- Active Cooler
-- Case
-- Suitable power supply
+### Design requirements
+- Several months without manual intervention
+- Forest shade and difficult access may limit solar generation
+- Size only after realistic consumption and site measurements
 
-### Role
-- Control the tests
-- Communicate with the camera
-- Run Python scripts
-- Record results
-- Generate logs
-- Prepare for a future interface
+## 7. Documentation and security
 
-## 6. Power / PoE
+### Files
+- README.md
+- project-map.md
+- docs/umbra-installation-rtsp-performance.md
+- docs/project-map.svg (generated visualization; may require regeneration)
 
-### Components under study
-- IPOE-162
-- Power supply
-- Female DC jack connector with wires
-- Required cabling
-- Ethernet
+### Rules
+- English documentation
+- Beginner-reproducible commands and explanations
+- Mark tested vs planned steps
+- Never commit passwords, private keys or expanded authenticated URLs
+- Never publish sensitive field coordinates
+- Date important decisions and measurements
 
-### Safety
-- Standard wall plug on the mains side
-- No exposed or unsafe 230 V wiring
-- Low-voltage work only during testing
-
-### Measurement
-- Multimeter
-- Voltage checks
-- Continuity checks
-- Wiring diagnostics
-
-## 7. Network
-
-### Home development setup
-- Raspberry Pi connected to the home Wi-Fi
-- Computer connected to the same network
-- No dedicated router required for the initial development phase
-
-### Raspberry Pi access
-- SSH
-- VS Code Remote
-
-### Field deployment
-- RUT241 for 4G connectivity
-- Local station network
-- Remote access method to be defined precisely
-
-## 8. Software
-
-### Workstation
-- Kali Linux
-- Windows
-- VS Code
-
-### Raspberry Pi
-- Linux
-- Python
-- Git
-
-### Python
-- Learned progressively through the project
-- Simple scripts first
-- Gradual automation
-
-### GitHub
-- Version control
-- Documentation
-- Decision history
-- Future project sharing
-
-### Security
-- No passwords stored in the repository
-- Environment variables
-- Local files excluded from Git
-- `.gitignore`
-
-## 9. Planned measurements
-
-### Power
-- Voltage
-- Power consumption
-- Average consumption
-- Consumption peaks
-- Day / night differences
-
-### Network
-- Connectivity
-- Latency
-- Disconnections
-- Reconnection
-- 4G stability
-
-### Camera
-- Day operation
-- Night operation
-- IR behaviour
-- Image quality
-- Stream stability
-
-### Storage
-- Data volume generated
-- Throughput
-- Storage used over 72 hours
-
-### Reliability
-- Temperature
-- Long-duration operation
-- Raspberry Pi restart
-- Camera restart
-- Recovery after power loss
-
-## 10. Final power system
-
-### Before validation
-- Battery and solar system are not finalized yet
-
-### After the 72-hour test
-- Calculate real daily energy requirements
-- Size the battery
-- Size the solar array
-- Add safety margins
-- Select the charge controller / MPPT
-
-## 11. Project documentation
-
-### Documents
-- README
-- Markmap
-- Schematics
-- BOM
-- Test procedures
-- Results
-- Decision log
-
-### Documentation rules
-- Every important choice should be dated
-- Every architecture change should explain why it was made
-- Rejected or postponed options should remain documented
-
-## 12. V2
-
-### Possible future developments
-- Two-camera architecture
-- Advanced automation
-- Result comparison
-- Monitoring interface
-- Automated analysis
+## 8. Possible future development
+- Wildlife event detection
+- Audio recording / AudioMoth integration
+- Automated monitoring and reports
+- Multi-camera expansion
 - Embedded AI
-
-## 13. Current status
-
-### Defined
-- Autonomous wildlife monitoring station concept
-- Raspberry Pi 5
-- Reolink RLC-811A
-- USB 3 SSD
-- Teltonika RUT241
-- 12 V architecture
-- 72-hour test bench
-- One camera for V1
-- Kali Linux + VS Code
-- Python
-- GitHub
-- Markmap documentation
-
-### To be finalized
-- Test bench electrical diagram
-- Exact power supply
-- Final multimeter choice
-- Raspberry Pi 5 purchase
-- Case and cooling
-- PoE assembly
-- 72-hour test procedure
-- GitHub repository structure
