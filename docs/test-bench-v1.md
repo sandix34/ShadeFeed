@@ -19,9 +19,9 @@ These are **not** full-system energy or long-duration reliability tests.
 
 ## Historical architecture diagram
 
-![Early V1 concept — not an approved electrical schematic](test-bench-v1-architecture.png)
+![V1 test-bench concept in English — not an approved electrical schematic](test-bench-v1-architecture.svg)
 
-**Warning:** The image above is an **early conceptual diagram**. It may show a common 12 V distribution bus and connections that have not been electrically validated. **Do not use it as a build or wiring instruction.**
+**Warning:** The diagram above is an **updated English functional overview**, not an approved electrical schematic. The original French-language PNG showed an earlier common 12 V distribution concept; it has been superseded. Neither drawing represents electrically validated wiring. **Do not use it as a build or wiring instruction.**
 
 The original proposal included:
 - A 12 V DC distribution bus
