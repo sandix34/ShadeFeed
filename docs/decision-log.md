@@ -75,3 +75,17 @@ This document records **decisions**, their rationale and their validation status
 **Decision:** Keep repository documentation in English, label measured versus planned features, and never publish credentials or sensitive wildlife locations.
 
 **Consequence:** Technical records can be shared publicly without disclosing field sites or secrets.
+
+## 2026-10-20 — Initial camera network availability monitoring
+
+**Status:** Implemented and manually tested; automatic startup pending.
+
+**Implementation:** `src/wildlife_station/camera_monitor.py` checks whether Umbra's TCP port 554 accepts connections every 30 seconds. It prints each check and appends only state changes to `logs/camera_monitor.log`.
+
+**Observed:** An intentional network disconnection produced `ONLINE → OFFLINE → ONLINE` on 2026-10-20, and the log retained the transitions. The log is excluded from Git.
+
+**Limitation:** A successful TCP connection does not prove that RTSP authentication or video frames are working. The script is currently run manually, does not recover itself after a process or system restart, and uses a test-bench LAN address.
+
+**Next steps:** Document and test a systemd service, validate startup/restart behavior, then add an actual video-stream health check.
+
+**Reference:** [Camera monitor guide](camera-monitor.md).
