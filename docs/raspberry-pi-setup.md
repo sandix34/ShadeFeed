@@ -90,10 +90,10 @@ The commands display the host configuration, operating system, CPU architecture,
 ## Next steps
 
 - [ ] Document the Python environment and its actual dependencies
-- [ ] Create and test the first project-specific Python script
+- [x] Create and test the first project-specific Python script: Umbra TCP/554 availability monitor (2026-10-20)
 - [ ] Validate stable camera network addressing
 - [ ] Review SSH security before remote Internet access
-- [ ] Add monitoring and fault-recovery tests
+- [ ] Configure and test automatic monitoring startup and recovery with systemd
 - [ ] Complete the planned 72-hour endurance test
 
 For video commands and measured results, see the [Umbra guide](umbra-installation-rtsp-performance.md).
