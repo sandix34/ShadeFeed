@@ -35,6 +35,7 @@ The architecture and selected parts may change after tests. A selected component
 - Raspberry Pi startup, system update and SSH access
 - Raspberry Pi GitHub SSH access and Python virtual environment
 - Local RTSP service available on TCP port 554
+- Python Umbra TCP/554 availability monitor tested on 2026-10-20: detected an intentional disconnect and reconnect, logging only status transitions
 - Secondary camera stream identified as **H.264, 640 × 360**, nominal metadata **25 fps**
 - Main camera stream identified as **H.265/HEVC, 3840 × 2160**, nominal metadata **25.5 fps**
 - Short video processing tests on the Raspberry Pi 5
@@ -59,6 +60,7 @@ The preliminary design direction is to use the lower-resolution H.264 stream for
 - **[Project map (Markmap source)](project-map.md)** — architecture, validation stages and open questions
 - **[Raspberry Pi setup](docs/raspberry-pi-setup.md)** — initial configuration and observed system checks
 - **[V1 test-bench plan](docs/test-bench-v1.md)** — electrical design caveats, measurement points and endurance-test plan
+- **[Camera availability monitor](docs/camera-monitor.md)** — usage, test evidence, scope and limitations
 - **[Technical decision log](docs/decision-log.md)** — dated choices, evidence and open decisions
 
 ![Project architecture map](docs/project-map.svg)
@@ -70,6 +72,8 @@ The preliminary design direction is to use the lower-resolution H.264 stream for
 - [ ] Inspect and document the precise PoE connections, supply specifications and wiring
 - [ ] Verify camera firmware and software versions and document Reolink settings
 - [ ] Rotate any camera credentials exposed in earlier test screenshots
+- [ ] Run camera monitoring automatically with systemd and validate restart behavior
+- [ ] Verify actual RTSP video stream health, beyond TCP port availability
 - [ ] Validate real recording files, timestamps and disk usage
 - [ ] Test stream stability, temperatures and reconnection over longer periods
 - [ ] Measure complete-system power consumption, including night/IR operation
