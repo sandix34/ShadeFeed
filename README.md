@@ -1,3 +1,5 @@
+![ShadeFeed — Station autonome d’observation de la faune sauvage](docs/shadefeed-banner.png)
+
 # 🦉 ShadeFeed — Autonomous Wildlife Observation Station
 
 An experimental, autonomous wildlife observation station built to support long-term, low-disturbance field monitoring.
