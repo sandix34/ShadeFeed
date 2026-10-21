@@ -1,4 +1,4 @@
-# 🦉 Autonomous Wildlife Camera — Noctua
+# 🦉 ShadeFeed — Autonomous Wildlife Observation Station
 
 An experimental, autonomous wildlife observation station built to support long-term, low-disturbance field monitoring.
 
@@ -19,7 +19,7 @@ An experimental, autonomous wildlife observation station built to support long-t
 
 | Component | Status | Notes |
 | --- | --- | --- |
-| Raspberry Pi 5 (Noctua) | **Installed and tested** | Linux, SSH, Git access, Python virtual environment and basic health checks |
+| Raspberry Pi 5 (ShadeFeed) | **Installed and tested** | Linux, SSH, Git access, Python virtual environment and basic health checks |
 | Reolink RLC-811A (Umbra) | **Received and tested** | RTSP secondary H.264 and main 4K H.265 streams accessed |
 | PLANET IPOE-162 PoE injector | **Received; operating setup used for camera tests** | Exact wiring, labeling and electrical compatibility still require a documented inspection |
 | LEICKE NT03242, 24 V / 2 A | **Measured** | 24.46 V DC at the supply output; not a measurement of PoE output or station power consumption |
