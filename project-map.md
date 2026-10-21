@@ -4,7 +4,7 @@ markmap:
   initialExpandLevel: 3
 ---
 
-# Noctua — Autonomous Wildlife Camera
+# ShadeFeed — Autonomous Wildlife Observation Station
 
 ## 1. Mission
 
@@ -54,7 +54,7 @@ markmap:
 - Main RTSP: H.265, 3840 × 2160
 - Night and infrared behavior to be measured
 
-### Main computer — Noctua
+### Main computer — ShadeFeed
 - Raspberry Pi 5
 - Linux, Python and FFmpeg
 - SSH administration
