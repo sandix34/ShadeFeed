@@ -2,6 +2,7 @@
 """Basic network availability check for Umbra."""
 
 import socket
+import subprocess
 import time
 from datetime import datetime
 from pathlib import Path
@@ -20,6 +21,35 @@ def check_camera():
         ):
             return True
     except OSError:
+        return False
+
+def check_rtsp_stream():
+    """Check whether FFmpeg can decode 10 seconds of video."""
+    import os
+
+    rtsp_url = os.environ.get("RTSP_URL")
+    if not rtsp_url:
+        return False
+
+    try:
+        result = subprocess.run(
+            [
+                "ffmpeg",
+                "-hide_banner",
+                "-loglevel", "error",
+                "-rtsp_transport", "tcp",
+                "-i", rtsp_url,
+                "-t", "10",
+                "-an",
+                "-f", "null",
+                "-"
+            ],
+            capture_output=True,
+            timeout=25,
+            check=False,
+        )
+        return result.returncode == 0
+    except (subprocess.TimeoutExpired, OSError):
         return False
 
 LOG_FILE = Path("logs/camera_monitor.log")
@@ -42,12 +72,22 @@ def main():
                 timespec="seconds"
             )
 
-            if check_camera():
-                status = "ONLINE"
-            else:
-                status = "OFFLINE"
+            network_ok = check_camera()
 
-            message = f"{timestamp} | Umbra | {status}"
+            if network_ok:
+                stream_ok = check_rtsp_stream()
+            else:
+                stream_ok = False
+
+            network_status = "ONLINE" if network_ok else "OFFLINE"
+            stream_status = "OK" if stream_ok else "FAILED"
+
+            status = (network_status, stream_status)
+
+            message = (
+                f"{timestamp} | Umbra | "
+                f"Network: {network_status} | Stream: {stream_status}"
+            )
             print(message, flush=True)
 
             if status != previous_status:
