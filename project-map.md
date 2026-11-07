@@ -22,7 +22,7 @@ markmap:
 - Improve
 - Deploy only after validation
 
-## 2. Current status — October 2026
+## 2. Current status — 7 November 2026
 
 ### Completed
 - Raspberry Pi 5 purchased and initialized
@@ -34,8 +34,12 @@ markmap:
 - RTSP connectivity and video stream identification
 - Initial 4K CPU and memory comparison
 - Beginner-friendly RTSP documentation
+- Network-only systemd boot and SIGKILL recovery validated
+- Network and sampled RTSP monitor implemented
+- Eleven hardware-independent unit tests
 
 ### Not yet validated
+- Deployment and hardware revalidation of revised RTSP service and frame-count check
 - Exact PoE wiring documentation and full electrical checks
 - Stable recording and timestamp handling
 - Long-duration network and thermal performance
@@ -128,6 +132,9 @@ markmap:
 - README.md
 - project-map.md
 - docs/umbra-installation-rtsp-performance.md
+- docs/camera-monitor.md
+- docs/camera-monitor-systemd.md
+- tests/README.md
 - docs/project-map.svg (simplified visual overview)
 
 ### Rules

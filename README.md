@@ -4,7 +4,7 @@
 
 An experimental, autonomous wildlife observation station built to support long-term, low-disturbance field monitoring.
 
-**Project status (October 2026):** Raspberry Pi preparation completed; Umbra camera accessible over the local network; RTSP video reception and initial performance measurements validated. **The station is not yet autonomous or field-deployed.**
+**Project status (7 November 2026):** Local RTSP reception and initial performance measurements validated. Network and sampled video monitoring implemented. Automatic startup and process-failure recovery were validated for the earlier network-only monitor; the revised RTSP service configuration still requires deployment and hardware revalidation. **The station is not yet autonomous or field-deployed.**
 
 > **Observe → Test → Measure → Document → Improve**
 
@@ -56,12 +56,22 @@ The architecture and selected parts may change after tests. A selected component
 
 The preliminary design direction is to use the lower-resolution H.264 stream for analysis and reserve the 4K H.265 stream for high-quality recording or selected captures. This architecture remains to be implemented and validated.
 
+## Monitoring update — 7 November 2026
+
+- Network-only service boot and SIGKILL recovery tests recorded.
+- Network + RTSP monitoring merged via PR #1; its description reports a successful Raspberry Pi RTSP test.
+- Audit corrections require explicit video mapping and positive decoded-frame counts.
+- Credentials are loaded locally by systemd; they are never committed.
+- Eleven standard-library unit tests cover network, decoding, configuration and status transitions.
+- These checks do not establish long-term stability or image quality.
+
 ## Documentation
 
 - **[Umbra: beginner-friendly setup, RTSP and Raspberry Pi performance tests](docs/umbra-installation-rtsp-performance.md)** — observed commands, expected outputs, troubleshooting, measurements and safety notes
 - **[Project map (Markmap source)](project-map.md)** — architecture, validation stages and open questions
 - **[Raspberry Pi setup](docs/raspberry-pi-setup.md)** — initial configuration and observed system checks
 - **[V1 test-bench plan](docs/test-bench-v1.md)** — electrical design caveats, measurement points and endurance-test plan
+- **[Service installation and validation](docs/camera-monitor-systemd.md)** — local secrets, upgrade steps and evidence
 - **[Camera availability monitor](docs/camera-monitor.md)** — usage, test evidence, scope and limitations
 - **[Technical decision log](docs/decision-log.md)** — dated choices, evidence and open decisions
 
@@ -74,8 +84,10 @@ The preliminary design direction is to use the lower-resolution H.264 stream for
 - [ ] Inspect and document the precise PoE connections, supply specifications and wiring
 - [ ] Verify camera firmware and software versions and document Reolink settings
 - [ ] Rotate any camera credentials exposed in earlier test screenshots
-- [ ] Run camera monitoring automatically with systemd and validate restart behavior
-- [ ] Verify actual RTSP video stream health, beyond TCP port availability
+- [x] Validate network-monitor startup with systemd and recovery after SIGKILL
+- [ ] Deploy the revised RTSP service configuration and repeat boot/failure tests
+- [x] Implement sampled RTSP decoding checks and hardware-independent tests
+- [ ] Validate the revised frame-count check with Umbra and simulated stream failures
 - [ ] Validate real recording files, timestamps and disk usage
 - [ ] Test stream stability, temperatures and reconnection over longer periods
 - [ ] Measure complete-system power consumption, including night/IR operation

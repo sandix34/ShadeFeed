@@ -78,7 +78,7 @@ This document records **decisions**, their rationale and their validation status
 
 ## 2026-10-20 — Initial camera network availability monitoring
 
-**Status:** Implemented and manually tested; automatic startup pending.
+**Status at 2026-10-20:** Implemented and manually tested; automatic startup was pending. See the 7 November update below.
 
 **Implementation:** `src/wildlife_station/camera_monitor.py` checks whether Umbra's TCP port 554 accepts connections every 30 seconds. It prints each check and appends only state changes to `logs/camera_monitor.log`.
 
@@ -89,3 +89,24 @@ This document records **decisions**, their rationale and their validation status
 **Next steps:** Document and test a systemd service, validate startup/restart behavior, then add an actual video-stream health check.
 
 **Reference:** [Camera monitor guide](camera-monitor.md).
+
+## 2026-11-07 — Supervised network and video monitoring
+
+**Observed:** Network-only service boot at 14:39:10 CET and automatic restart
+following SIGKILL at 14:55:16 CET; Umbra ONLINE in both cases.
+
+**Implemented:** PR #1 merged network and RTSP checks plus six initial tests.
+Its validation notes report a successful Raspberry Pi RTSP test.
+
+**Audit corrections:** Require a video stream and positive decoded-frame count,
+load RTSP_URL through a mandatory root-only local environment file, explicitly
+reject missing configuration at startup, isolate unit tests from real environment
+variables, and document the actual check-duration-plus-30-second cadence.
+Eleven standard-library tests replace the six environment-dependent tests.
+
+**Validation boundary:** Unit tests cover mocked behavior. Revised service
+installation, real video samples, reboot and failure recovery must be revalidated
+on the Raspberry Pi. No endurance or off-grid readiness is claimed.
+
+**References:** [Monitor](camera-monitor.md), [deployment](camera-monitor-systemd.md),
+[tests](../tests/README.md).

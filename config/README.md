@@ -1,14 +1,12 @@
 # Configuration
 
-This directory is reserved for **non-secret, version-controlled configuration examples** for the Noctua station.
+`systemd/shadefeed-camera-monitor.service` is the version-controlled service
+for the ShadeFeed bench. It uses the local user and repository path documented
+in the [installation guide](../docs/camera-monitor-systemd.md).
 
-No application configuration format has been finalized yet. Do not add guessed settings or real device credentials.
+The mandatory `/etc/shadefeed/camera-monitor.env` supplies RTSP_URL. Keep it
+root-owned, mode 0600, outside Git. This file is read by systemd, not automatically
+by Python during a manual run. Shell exports do not configure the system service.
 
-## Rules
-
-- Commit examples with placeholders only.
-- Keep real passwords, tokens, SSH private keys and authenticated RTSP URLs outside Git.
-- Do not publish sensitive wildlife observation coordinates.
-- Document each new configuration option when it is implemented.
-
-The repository's `.gitignore` excludes local `.env` files. A future `.env.example` may contain **placeholder names only**, not actual secrets.
+No real credentials, authenticated URLs or field coordinates belong here.
+The bench IP and timing are still constants in camera_monitor.py.

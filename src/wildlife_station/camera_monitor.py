@@ -1,6 +1,7 @@
 
-"""Basic network availability check for Umbra."""
+"""Network availability and sampled RTSP video checks for Umbra."""
 
+import os
 import socket
 import subprocess
 import time
@@ -24,9 +25,7 @@ def check_camera():
         return False
 
 def check_rtsp_stream():
-    """Check whether FFmpeg can decode 10 seconds of video."""
-    import os
-
+    """Request a 10-second sample; require successful decoding of video frames."""
     rtsp_url = os.environ.get("RTSP_URL")
     if not rtsp_url:
         return False
@@ -37,18 +36,32 @@ def check_rtsp_stream():
                 "ffmpeg",
                 "-hide_banner",
                 "-loglevel", "error",
+                "-nostdin",
+                "-nostats",
+                "-progress", "pipe:1",
                 "-rtsp_transport", "tcp",
                 "-i", rtsp_url,
+                "-map", "0:v:0",
                 "-t", "10",
                 "-an",
                 "-f", "null",
                 "-"
             ],
-            capture_output=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
             timeout=25,
             check=False,
         )
-        return result.returncode == 0
+        frames = []
+        for line in result.stdout.splitlines():
+            key, _, value = line.partition("=")
+            if key == "frame":
+                try:
+                    frames.append(int(value.strip()))
+                except ValueError:
+                    pass
+        return result.returncode == 0 and any(count > 0 for count in frames)
     except (subprocess.TimeoutExpired, OSError):
         return False
 
@@ -63,7 +76,9 @@ def log_event(message):
         log.write(message + "\n")
 
 def main():
-    print("Noctua | Camera monitoring started")
+    if not os.environ.get("RTSP_URL"):
+        raise SystemExit("ShadeFeed | Configuration error: RTSP_URL is missing")
+    print("ShadeFeed | Camera monitoring started")
     previous_status = None
 
     try:
@@ -97,7 +112,7 @@ def main():
             time.sleep(30)
 
     except KeyboardInterrupt:
-        print("\nNoctua | Camera monitoring stopped")
+        print("\nShadeFeed | Camera monitoring stopped")
 
 
 if __name__ == "__main__":

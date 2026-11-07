@@ -1,8 +1,8 @@
-# Contributing to Noctua
+# Contributing to ShadeFeed
 
 ## Project Philosophy
 
-Noctua is an independent wildlife monitoring project combining field expertise, embedded systems, networking, and software development.
+ShadeFeed is an independent wildlife monitoring project combining field expertise, embedded systems, networking, and software development.
 
 The project is developed through a **human-led, AI-assisted approach**, where practical experimentation, continuous learning, and technical validation guide development.
 

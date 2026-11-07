@@ -1,58 +1,51 @@
-# Umbra Camera Availability Monitor
+# Umbra network and RTSP monitoring
 
-**First manual validation:** 2026-10-20  
-**Implementation:** [`src/wildlife_station/camera_monitor.py`](../src/wildlife_station/camera_monitor.py)  
-**Status:** Basic network check validated; unattended operation not yet implemented.
+## Current behavior — 7 November 2026
 
-## Purpose
+`src/wildlife_station/camera_monitor.py` first checks the camera's TCP port
+554 (5-second timeout). If reachable, it runs FFmpeg over TCP, explicitly
+selecting video stream `0:v:0`, requesting a 10-second decoded sample and
+applying a 25-second process timeout. No recording file is created.
 
-The monitor checks whether the camera's RTSP TCP port (554) is reachable on the test-bench local network. It is a first supervision component, **not** a video-quality or stream-decoding test.
+A healthy sample requires both exit code zero and a positive decoded-frame
+count in FFmpeg's progress output. This proves some video was decoded; it
+does not guarantee a full ten seconds, image quality, freshness of the scene,
+or uninterrupted video between samples. FFmpeg errors and URLs are not printed.
 
-## Current behavior
+Output contains `Network: ONLINE/OFFLINE | Stream: OK/FAILED`.
+An unreachable network skips FFmpeg and reports Stream FAILED; this does not
+independently diagnose a camera video fault. Only status transitions, including
+the first observation, are appended to `logs/camera_monitor.log`.
 
-- Attempts a TCP connection to the configured camera address and port, with a five-second timeout.
-- Repeats every 30 seconds while the script is running.
-- Prints a timezone-aware timestamp and `ONLINE` or `OFFLINE` for each check.
-- Appends an event to `logs/camera_monitor.log` only when the observed status changes, including the first observation.
-- Stops gracefully on Ctrl+C (`KeyboardInterrupt`).
+The loop sleeps 30 seconds **after** each check. Check start times are therefore
+roughly 40 seconds apart for a normal 10-second sample, with additional startup
+overhead; timeouts can increase this. The timestamp marks the start of the check.
+Logs are append-only; retention/rotation remains to be implemented for endurance use.
 
-The current camera address is a hard-coded private LAN address used only for the bench. It must be configurable before deployment. The log path is relative to the working directory; run the command from the repository root.
+## Configuration and operation
 
-## Run manually
+- Python 3 and the `ffmpeg` executable on PATH are required.
+- `RTSP_URL` must contain the authenticated camera stream URL. Startup fails
+  explicitly if it is missing; it is not read from a shell session by systemd.
+- The bench IP `192.168.1.28`, port and timing remain code constants.
+- Run from the repository root so the relative log path is correct.
+- Manual execution: `python3 src/wildlife_station/camera_monitor.py`, after
+  supplying RTSP_URL locally. Ctrl+C stops a manual run.
+- Use the [systemd guide](camera-monitor-systemd.md) for unattended execution.
+- Run [unit tests](../tests/README.md) without a camera or real credentials.
 
-From the Raspberry Pi, in the repository root:
+## Evidence and limits
 
-```bash
-python3 src/wildlife_station/camera_monitor.py
-```
+On 2026-10-20 the network-only monitor detected intentional network disconnection
+and reconnection: ONLINE at 17:28:36, OFFLINE at 17:29:06, ONLINE at 17:29:41
+(Europe/Paris). Only transitions were retained in the file log.
 
-Stop with **Ctrl+C**. Inspect the event log:
+On 2026-11-07 the network-only service boot and SIGKILL recovery were observed.
+PR #1 later added RTSP monitoring and reported a successful Raspberry Pi stream
+test. The subsequent audit adds frame-count validation and explicit systemd
+configuration: deployment and hardware revalidation of this revision are pending.
 
-```bash
-cat logs/camera_monitor.log
-```
-
-No third-party Python packages are required by this version.
-
-## Manual validation evidence — 2026-10-20
-
-The camera was initially reachable. Disconnecting only its network connection and then reconnecting it produced these observations (Europe/Paris local time):
-
-```text
-2026-10-20T17:28:36+02:00 | Umbra | ONLINE
-2026-10-20T17:29:06+02:00 | Umbra | OFFLINE
-2026-10-20T17:29:41+02:00 | Umbra | ONLINE
-```
-
-The event log contained the transitions but not the repeated unchanged `ONLINE` observation. An earlier `ONLINE` entry was also present from a previous run.
-
-## Known limitations and next steps
-
-1. An open TCP port does **not** guarantee valid RTSP authentication, frame delivery or image quality.
-2. No systemd service, automatic startup, process restart policy or boot test has been implemented.
-3. The monitor does not attempt to reconnect or repair the camera; it only reports reachability.
-4. A brief outage between checks may be missed; the exact detection time depends on polling and connection timeout.
-5. The IP address, check interval, logging policy and storage path should become configurable.
-6. Add tests for the monitoring logic and assess long-duration reliability before field use.
-
-**Security:** Do not commit camera credentials, full authenticated RTSP URLs, logs containing sensitive data or precise wildlife site locations.
+The monitor reports availability; it does not repair the camera or restart it.
+systemd restarts a failed monitor process, not a camera that reports FAILED.
+The 72-hour test, power measurements, recording integrity and field operation
+remain unvalidated. Never commit credentials or sensitive site locations.

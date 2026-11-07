@@ -1,14 +1,22 @@
-# Tests
+# Automated tests
 
-This directory is reserved for automated tests of the Noctua software.
+Run from the repository root with Python 3:
 
-**Current status:** No automated test suite is published here yet. The RTSP and performance measurements in the documentation were **manual test-bench experiments**.
+```bash
+python3 -m unittest discover -s tests -v
+```
 
-Future tests should distinguish:
-- Unit tests that run without hardware
-- Integration tests that require a Raspberry Pi or camera
-- Long-running endurance tests with explicit start/end times and measurements
+No pytest installation, FFmpeg binary, camera, network access or real credentials
+are required. The tests use the standard-library unittest runner and mocks.
+Each test supplies an isolated fictitious RTSP_URL, or explicitly removes it.
 
-Do not place credentials, sensitive coordinates or raw wildlife recordings in test fixtures.
+Eleven test methods cover network success/refusal/timeout, decoded video frames,
+FFmpeg failure, absent/zero/malformed frame counts, subprocess timeout, missing
+FFmpeg, missing URL, explicit startup failure, and transition-only logging.
+The success test also checks video selection, timeout and suppression of stderr.
 
-See [Umbra's documented manual tests](../docs/umbra-installation-rtsp-performance.md).
+These tests validate application logic, not real FFmpeg or camera behavior.
+See [deployment and hardware validation](../docs/camera-monitor-systemd.md).
+The original six pytest-style tests were replaced after the 7 November audit
+found two failures and a false-positive timeout test when RTSP_URL was absent.
+Never use real secrets or wildlife coordinates in fixtures.

@@ -6,6 +6,7 @@ After=network-online.target
 [Service]
 Type=simple
 User=sandrine
+EnvironmentFile=/etc/shadefeed/camera-monitor.env
 WorkingDirectory=/home/sandrine/autonomous-wildlife-camera
 ExecStart=/usr/bin/python3 -u /home/sandrine/autonomous-wildlife-camera/src/wildlife_station/camera_monitor.py
 Restart=on-failure
