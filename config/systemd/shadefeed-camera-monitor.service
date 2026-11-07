@@ -1,0 +1,15 @@
+[Unit]
+Description=ShadeFeed - Umbra camera availability monitor
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=sandrine
+WorkingDirectory=/home/sandrine/autonomous-wildlife-camera
+ExecStart=/usr/bin/python3 -u /home/sandrine/autonomous-wildlife-camera/src/wildlife_station/camera_monitor.py
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
