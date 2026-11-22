@@ -89,3 +89,11 @@ status and logs. Record restart counter, timestamps and fresh stream status.
 Stop intentionally with `sudo systemctl stop shadefeed-camera-monitor.service`.
 Start again with `sudo systemctl start shadefeed-camera-monitor.service`.
 Long-duration reliability, log rotation and the 72-hour bench test remain pending.
+
+## 2026-11-22 — Live RTSP validation on the Raspberry Pi
+
+- All 11 unit tests passed on the Raspberry Pi.
+- The first live check reported `Network: ONLINE | Stream: FAILED`.
+- After the camera credentials were corrected locally and the service was
+  restarted, the journal reported `Umbra | Network: ONLINE | Stream: OK`
+  at 15:21:30 CET. This confirms that FFmpeg decoded video frames from Umbra.
