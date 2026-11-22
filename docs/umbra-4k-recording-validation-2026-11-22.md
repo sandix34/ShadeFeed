@@ -36,3 +36,18 @@ The station successfully captured a short 4K HEVC clip that decoded completely a
 Keep recordings, local environment files, passwords, authenticated RTSP URLs and site coordinates outside the public repository. The operator's terminal screenshots and playback report are the source for this entry; no automated frame-integrity audit or extended endurance test was performed.
 
 **Outcome:** 60-second recording and manual playback accepted; timestamp investigation remains open.
+
+## Additional packet timestamp checks (2026-11-22)
+
+The operator ran `ffprobe` on the saved MKV, selecting video stream `v:0`, and checked all packet DTS values with an AWK comparison against the preceding packet. A separate check measured consecutive PTS differences.
+
+| Metric | Observed result |
+| --- | ---: |
+| Video packets with DTS analyzed | 1,501 |
+| Non-increasing DTS values | 0 |
+| Largest consecutive PTS interval | 0.088 s |
+| Consecutive PTS intervals above 0.100 s | 0 |
+
+**Interpretation:** No non-increasing packet DTS values or PTS gaps above the selected 100 ms threshold were detected in this 60-second MKV. These checks do not independently prove absence of dropped frames or explain the earlier FFmpeg null-muxer warnings. Keep the timestamp investigation open pending reproduction and packet/frame-level review.
+
+**Next controlled test:** Capture 10 minutes of the main 4K stream, inspect duration, size, DTS/PTS continuity and full decode, and retain the recording outside Git. Check free disk space before capture. Longer tests and unattended operation remain unvalidated.
