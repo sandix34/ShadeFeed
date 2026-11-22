@@ -4,7 +4,7 @@
 
 An experimental, autonomous wildlife observation station built to support long-term, low-disturbance field monitoring.
 
-**Project status (7 November 2026):** Local RTSP reception and initial performance measurements validated. Network and sampled video monitoring implemented. Automatic startup and process-failure recovery were validated for the earlier network-only monitor; the revised RTSP service configuration still requires deployment and hardware revalidation. **The station is not yet autonomous or field-deployed.**
+**Project status (22 November 2026):** Local RTSP reception and initial performance measurements validated. Network and sampled video monitoring implemented. Automatic startup and process-failure recovery were validated for the earlier network-only monitor; the revised RTSP service configuration still requires deployment and hardware revalidation. A 60-second 4K HEVC recording was decoded and visually reviewed successfully on 22 November; timestamp warnings remain under investigation. **The station is not yet autonomous or field-deployed.**
 
 > **Observe → Test → Measure → Document → Improve**
 
@@ -56,6 +56,13 @@ The architecture and selected parts may change after tests. A selected component
 
 The preliminary design direction is to use the lower-resolution H.264 stream for analysis and reserve the 4K H.265 stream for high-quality recording or selected captures. This architecture remains to be implemented and validated.
 
+## Recording validation — 22 November 2026
+
+- Recorded a 60-second 3840 × 2160 HEVC clip (60.04 s; 73,024,818 bytes).
+- Complete decode succeeded; the operator watched the recording and reported no visible playback problems.
+- Non-monotonic DTS warnings remain unresolved; this short test does not validate long-term integrity.
+- See [the 22 November 4K recording validation](docs/umbra-4k-recording-validation-2026-11-22.md).
+
 ## Monitoring update — 7 November 2026
 
 - Network-only service boot and SIGKILL recovery tests recorded.
@@ -67,6 +74,7 @@ The preliminary design direction is to use the lower-resolution H.264 stream for
 
 ## Documentation
 
+- **[4K recording validation — 22 November 2026](docs/umbra-4k-recording-validation-2026-11-22.md)** — 60-second capture, playback and timestamp warnings
 - **[Umbra: beginner-friendly setup, RTSP and Raspberry Pi performance tests](docs/umbra-installation-rtsp-performance.md)** — observed commands, expected outputs, troubleshooting, measurements and safety notes
 - **[Project map (Markmap source)](project-map.md)** — architecture, validation stages and open questions
 - **[Raspberry Pi setup](docs/raspberry-pi-setup.md)** — initial configuration and observed system checks
@@ -88,7 +96,8 @@ The preliminary design direction is to use the lower-resolution H.264 stream for
 - [ ] Deploy the revised RTSP service configuration and repeat boot/failure tests
 - [x] Implement sampled RTSP decoding checks and hardware-independent tests
 - [ ] Validate the revised frame-count check with Umbra and simulated stream failures
-- [ ] Validate real recording files, timestamps and disk usage
+- [x] Validate a short real 4K recording by full decode and visual playback (22 November 2026)
+- [ ] Investigate recording timestamps and validate longer-term disk usage
 - [ ] Test stream stability, temperatures and reconnection over longer periods
 - [ ] Measure complete-system power consumption, including night/IR operation
 - [ ] Implement secure remote live viewing and verify recovery after outages
