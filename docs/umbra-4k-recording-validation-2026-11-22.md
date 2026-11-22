@@ -51,3 +51,24 @@ The operator ran `ffprobe` on the saved MKV, selecting video stream `v:0`, and c
 **Interpretation:** No non-increasing packet DTS values or PTS gaps above the selected 100 ms threshold were detected in this 60-second MKV. These checks do not independently prove absence of dropped frames or explain the earlier FFmpeg null-muxer warnings. Keep the timestamp investigation open pending reproduction and packet/frame-level review.
 
 **Next controlled test:** Capture 10 minutes of the main 4K stream, inspect duration, size, DTS/PTS continuity and full decode, and retain the recording outside Git. Check free disk space before capture. Longer tests and unattended operation remain unvalidated.
+
+## Ten-minute RTSP recording follow-up (2026-11-22)
+
+The operator recorded the main 4K HEVC stream using FFmpeg stream copy on the Raspberry Pi, saving a local test artifact at `/tmp/noctua-test/reolink-4k-10min.mkv`. The authenticated RTSP URL and credentials are intentionally omitted.
+
+| Check | Observed result |
+| --- | --- |
+| Video | HEVC / H.265, 3840 × 2160, nominal 25 fps |
+| Probed file duration | 600.038 s |
+| Probed file size | 684,599,304 bytes (~653 MiB) |
+| Complete frame count using `ffprobe -count_frames` | 15,003 decoded/read video frames |
+| Approximate expected count at 25 fps for exactly 600 s | 15,000 (reference only) |
+| FFmpeg stream-copy test | Exit code 0; repeated non-monotonically increasing DTS warnings from the Matroska muxer |
+| Remux to null | Exit code 0; repeated non-monotonically increasing DTS warnings |
+| Longer-term integrity | Not established |
+
+The frame count is consistent with approximately ten minutes at 25 fps, but it is **not** evidence of correct packet DTS/PTS ordering, absence of dropped or duplicated frames, or stable long-term operation. An additional `ffprobe` inspection of individual frame timestamps was proposed but not completed before the session ended. The 60-second file's prior DTS results must not be conflated with this separate ten-minute recording.
+
+**Open issue:** Determine whether the warnings originate from source packet timestamps, FFmpeg timestamp handling or muxer behavior. Next session: inspect original video packet DTS/PTS and frame presentation timestamps separately; preserve the original file, capture FFmpeg/version and command details, and compare controlled remux methods before changing the recording pipeline. Avoid assuming a fix from a successful exit status alone.
+
+**Session stop point:** Investigation deliberately paused on 22 November 2026. No timestamp correction was validated and the 10-minute recording is not accepted as fully qualified evidence for unattended operation. Keep video files and credentials outside Git.
