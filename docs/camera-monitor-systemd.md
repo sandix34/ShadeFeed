@@ -97,4 +97,6 @@ Long-duration reliability, log rotation and the 72-hour bench test remain pendin
 - After the camera credentials were corrected locally and the service was
   restarted, the journal reported `Umbra | Network: ONLINE | Stream: OK`
   at 15:21:30 CET. This confirms that FFmpeg decoded video frames from Umbra.
-  - After a full Raspberry Pi reboot, the service started automatically at 15:32:55 CET and reported `Network: ONLINE | Stream: OK` at 15:33:10 CET.
+- After a full Raspberry Pi reboot, the service started automatically at 15:32:55 CET and reported `Network: ONLINE | Stream: OK` at 15:33:10 CET.
+- First PoE disconnect/reconnect test: the journal reported `Network: OFFLINE` at 15:38:09 CET and `Stream: OK` at 15:39:59 CET.
+- Second PoE disconnect/reconnect test: the journal reported `Network: OFFLINE` at 15:40:34 CET and `Stream: OK` at 15:41:49 CET. The monitor kept the same process ID (1111) throughout both tests.
