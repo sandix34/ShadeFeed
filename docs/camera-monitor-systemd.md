@@ -100,3 +100,4 @@ Long-duration reliability, log rotation and the 72-hour bench test remain pendin
 - After a full Raspberry Pi reboot, the service started automatically at 15:32:55 CET and reported `Network: ONLINE | Stream: OK` at 15:33:10 CET.
 - First PoE disconnect/reconnect test: the journal reported `Network: OFFLINE` at 15:38:09 CET and `Stream: OK` at 15:39:59 CET.
 - Second PoE disconnect/reconnect test: the journal reported `Network: OFFLINE` at 15:40:34 CET and `Stream: OK` at 15:41:49 CET. The monitor kept the same process ID (1111) throughout both tests.
+- After a forced SIGKILL at 15:48:00 CET (PID 1111), systemd restarted the monitor at 15:48:10 CET (PID 2559, restart counter 1). At 15:48:21 CET, the new process reported `Network: ONLINE | Stream: OK`.
