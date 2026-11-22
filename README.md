@@ -4,7 +4,7 @@
 
 An experimental, autonomous wildlife observation station built to support long-term, low-disturbance field monitoring.
 
-**Project status (22 November 2026):** Local RTSP reception and initial performance measurements validated. Network and sampled video monitoring implemented. Automatic startup and process-failure recovery were validated for the earlier network-only monitor; the revised RTSP service configuration still requires deployment and hardware revalidation. A 60-second 4K HEVC recording was decoded and visually reviewed successfully on 22 November; timestamp warnings remain under investigation. **The station is not yet autonomous or field-deployed.**
+**Project status (22 November 2026):** Local RTSP reception and initial performance measurements validated. Network and sampled video monitoring implemented. Automatic startup and process-failure recovery were validated for the earlier network-only monitor; the revised RTSP service configuration still requires deployment and hardware revalidation. A 60-second 4K HEVC recording was decoded and visually reviewed successfully; a separate 10-minute 4K capture was counted at 15,003 frames over 600.038 seconds. Timestamp/DTS warnings remain under investigation. **The station is not yet autonomous or field-deployed.**
 
 > **Observe → Test → Measure → Document → Improve**
 
@@ -60,7 +60,8 @@ The preliminary design direction is to use the lower-resolution H.264 stream for
 
 - Recorded a 60-second 3840 × 2160 HEVC clip (60.04 s; 73,024,818 bytes).
 - Complete decode succeeded; the operator watched the recording and reported no visible playback problems.
-- Non-monotonic DTS warnings remain unresolved; this short test does not validate long-term integrity.
+- A separate 10-minute HEVC recording was measured at 600.038 s, 684,599,304 bytes and 15,003 read frames. The stream-copy/remux tests still emitted non-monotonic DTS warnings; this does not validate timestamp integrity or endurance.
+- Non-monotonic DTS warnings remain unresolved; these tests do not validate long-term integrity.
 - See [the 22 November 4K recording validation](docs/umbra-4k-recording-validation-2026-11-22.md).
 
 ## Monitoring update — 7 November 2026
@@ -74,7 +75,7 @@ The preliminary design direction is to use the lower-resolution H.264 stream for
 
 ## Documentation
 
-- **[4K recording validation — 22 November 2026](docs/umbra-4k-recording-validation-2026-11-22.md)** — 60-second capture, playback and timestamp warnings
+- **[4K recording validation — 22 November 2026](docs/umbra-4k-recording-validation-2026-11-22.md)** — 60-second and 10-minute captures, frame counts and unresolved timestamp warnings
 - **[Umbra: beginner-friendly setup, RTSP and Raspberry Pi performance tests](docs/umbra-installation-rtsp-performance.md)** — observed commands, expected outputs, troubleshooting, measurements and safety notes
 - **[Project map (Markmap source)](project-map.md)** — architecture, validation stages and open questions
 - **[Raspberry Pi setup](docs/raspberry-pi-setup.md)** — initial configuration and observed system checks
