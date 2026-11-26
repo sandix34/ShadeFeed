@@ -4,14 +4,14 @@
 
 An experimental, autonomous wildlife observation station built to support long-term, low-disturbance field monitoring.
 
-**Project status (22 November 2026):** Local RTSP reception and initial performance measurements validated. Network and sampled video monitoring implemented. Automatic startup and process-failure recovery were validated for the earlier network-only monitor; the revised RTSP service configuration still requires deployment and hardware revalidation. A 60-second 4K HEVC recording was decoded and visually reviewed successfully; a separate 10-minute 4K capture was counted at 15,003 frames over 600.038 seconds. Timestamp/DTS warnings remain under investigation. **The station is not yet autonomous or field-deployed.**
+**Project status (26 November 2026):** Local RTSP reception and initial performance measurements validated. Network and sampled video monitoring implemented. Automatic startup and process-failure recovery were validated for the earlier network-only monitor; the revised RTSP service configuration still requires deployment and hardware revalidation. The latest 10-minute 4K recording decoded to 14,999 frames in 600.007 seconds. Millisecond rounding explains three equal DTS pairs in a separate two-minute capture. Monitor the missing first-packet PTS at capture startup. **The station is not yet autonomous or field-deployed.**
 
 > **Observe → Test → Measure → Document → Improve**
 
 ## Project goals
 
 - Continuous wildlife observation, including day and night
-- A live video feed accessible remotely
+- Record wildlife events for remote download and later manual publication
 - Long unattended operation, ultimately measured in months
 - Local recording, monitoring and fault recovery
 - Cellular connectivity and off-grid power
@@ -56,6 +56,10 @@ The architecture and selected parts may change after tests. A selected component
 
 The preliminary design direction is to use the lower-resolution H.264 stream for analysis and reserve the 4K H.265 stream for high-quality recording or selected captures. This architecture remains to be implemented and validated.
 
+## Timestamp investigation — 26 November 2026
+
+Both traced clips decoded completely. In the two-minute clip, SHA-256 checks confirmed distinct decoded images within all three equal-timestamp pairs. The ten-minute capture had strictly increasing DTS throughout. Keep the current recording settings and warnings visible. The next bench test is a manually triggered event clip with a visible entrance and exit. [Full measurements and reproduction steps](docs/umbra-4k-timestamps-2026-11-26.md).
+
 ## Recording validation — 22 November 2026
 
 - Recorded a 60-second 3840 × 2160 HEVC clip (60.04 s; 73,024,818 bytes).
@@ -98,10 +102,12 @@ The preliminary design direction is to use the lower-resolution H.264 stream for
 - [x] Implement sampled RTSP decoding checks and hardware-independent tests
 - [ ] Validate the revised frame-count check with Umbra and simulated stream failures
 - [x] Validate a short real 4K recording by full decode and visual playback (22 November 2026)
-- [ ] Investigate recording timestamps and validate longer-term disk usage
+- [x] Compare capture and readback timestamps and verify full decoding on two- and ten-minute 4K clips
+- [ ] Validate a manually triggered event clip and monitor first-packet timestamps
+- [ ] Measure longer-term disk usage
 - [ ] Test stream stability, temperatures and reconnection over longer periods
 - [ ] Measure complete-system power consumption, including night/IR operation
-- [ ] Implement secure remote live viewing and verify recovery after outages
+- [ ] Implement secure remote event downloads and verify recovery after outages
 - [ ] Integrate storage and cellular networking
 - [ ] Run a **72-hour test bench** before sizing off-grid power
 - [ ] Select the installation site without publishing sensitive coordinates
